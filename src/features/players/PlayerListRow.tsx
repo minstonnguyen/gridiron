@@ -9,7 +9,7 @@ export function PlayerListRow({ p, rank, showConfidence }: { p: PlayerListItem; 
     <Link to={`/player/${p.id}`} className="group flex items-center gap-3 rounded-lg px-2 py-2 transition hover:bg-white/[0.04]">
       {rank != null && <span className="display tabular w-6 text-right text-lg text-fg-dim">{rank}</span>}
       <div className="relative">
-        <Headshot src={p.headshot} alt="" className="h-11 w-11 rounded-full bg-ink-700 ring-2" />
+        <Headshot src={p.headshot} alt="" width={96} className="h-11 w-11 rounded-full bg-ink-700" />
         <span className="absolute inset-0 rounded-full ring-2" style={{ ['--tw-ring-color' as string]: vivid(p.teamPrimary) + '99' }} />
       </div>
       <div className="min-w-0 flex-1">

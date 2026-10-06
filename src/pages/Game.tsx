@@ -123,7 +123,7 @@ export default function Game() {
             <Toggle label="Unit" value={unit} onChange={setUnit} options={[{ v: 'OFFENSE', label: 'OFFENSE' }, { v: 'DEFENSE', label: 'DEFENSE' }]} />
           </div>
         </div>
-        {L && <p className="flex items-start gap-2 text-xs text-fg-dim"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />{L.note} Hover a player for details; click to open the profile.</p>}
+        {L && <p className="flex items-start gap-2 text-xs text-fg-dim"><Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />{L.note} Hover (or tap) a player for details; click to open the profile.</p>}
         {lineups.isLoading ? <Skeleton className="h-[600px]" /> : lineups.isError ? <ErrorState error={lineups.error} compact onRetry={() => lineups.refetch()} /> : lineup && (lineup.offense.some((s) => s.player) || lineup.defense.some((s) => s.player)) ? (
           <>
             <Field lineup={lineup} unit={unit} color={color} />

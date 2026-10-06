@@ -17,7 +17,9 @@ ORD = {1: "1st", 2: "2nd", 3: "3rd"}
 
 
 def _ord(n: int) -> str:
-    return ORD.get(n if n < 20 else n % 10, f"{n}th") if n not in (11, 12, 13) else f"{n}th"
+    if 10 <= n % 100 <= 20:
+        return f"{n}th"
+    return f"{n}" + {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
 
 
 def _fmt(n) -> str:

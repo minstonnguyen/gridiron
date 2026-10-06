@@ -94,7 +94,7 @@ export function statusFrom(inj: any | undefined, rosterStatus: string | undefine
   if (rosterStatus === 'RES') return { code: 'RESERVE', label: 'RESERVE LIST', ...base };
   if (inj) return { code: 'HEALTHY', label: 'NO GAME DESIGNATION', ...base };
   if (reportExists) return { code: 'HEALTHY', label: 'HEALTHY', ...base };
-  return { code: 'UNAVAILABLE', label: 'STATUS UNAVAILABLE', ...base };
+  return { code: 'UNAVAILABLE', label: 'NO INJURY REPORT YET', ...base };
 }
 
 export async function buildCards(reqs: CardRequest[], ctx: CardContext): Promise<Map<number, PlayerCardData>> {

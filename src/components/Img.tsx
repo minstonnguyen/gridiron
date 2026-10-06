@@ -17,12 +17,18 @@ export function Silhouette({ className = '' }: { className?: string }) {
   );
 }
 
-export function Headshot({ src, alt, className = '', imgClassName = '' }: { src: string | null; alt: string; className?: string; imgClassName?: string }) {
+/** nflverse headshot URLs point at full-resolution originals (several MB); request a resized rendition from the image CDN. */
+export function sizedHeadshot(src: string | null, w: number): string | null {
+  if (!src) return null;
+  return src.replace(/\/(upload|private)\/f_auto,q_auto\//, `/$1/f_auto,q_auto,w_${w}/`);
+}
+
+export function Headshot({ src, alt, className = '', imgClassName = '', width = 200 }: { src: string | null; alt: string; className?: string; imgClassName?: string; width?: number }) {
   const [failed, setFailed] = useState(false);
   return (
     <div className={clsx('relative overflow-hidden', className)}>
       {src && !failed ? (
-        <img src={src} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} className={clsx('h-full w-full object-cover object-top', imgClassName)} />
+        <img src={sizedHeadshot(src, width)!} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} className={clsx('h-full w-full object-cover object-top', imgClassName)} />
       ) : (
         <Silhouette className="h-full w-full" />
       )}

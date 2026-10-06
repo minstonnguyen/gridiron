@@ -29,6 +29,7 @@ body {
 }
 .tabular { font-variant-numeric: tabular-nums; }
 
+@layer components {
 /* Machined-metal panel used across the app */
 .panel {
   position: relative;
@@ -55,6 +56,8 @@ body {
   color: #8d99b1;
 }
 .display { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em; line-height: 0.92; }
+
+}
 
 /* Diagonal broadcast stripe */
 .stripe {
@@ -114,3 +117,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
+
+/* Prevent truncating children from widening implicit grid tracks on narrow screens */
+.grid > * { min-width: 0; }

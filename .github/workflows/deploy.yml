@@ -1,0 +1,147 @@
+name: Sync & Deploy
+
+# Ingests nflverse data into PostgreSQL, exports the database to static JSON and deploys to GitHub Pages.
+# - Uses a PostgreSQL service container by default. Set the DATABASE_URL repository secret to use Supabase instead.
+# - The database is persisted between runs with pg_dump + actions/cache so scheduled runs are incremental.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 13 * * *'      # daily 13:00 UTC
+    - cron: '0 */6 * 9-12,1,2 *' # every 6h during the season (Sep–Feb)
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Sync job'
+        type: choice
+        default: in-season
+        options: [in-season, all, players, games, rosters, depth-charts, injuries, stats, ngs, ratings, bios, none]
+      force:
+        description: 'Force re-download (ignore source ETags)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: gridiron
+          POSTGRES_PASSWORD: gridiron
+          POSTGRES_DB: gridiron
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U gridiron" --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      LOCAL_DB: postgresql://gridiron:gridiron@localhost:5432/gridiron
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      - name: Select database
+        run: |
+          if [ -n "${{ secrets.DATABASE_URL }}" ]; then
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> "$GITHUB_ENV"
+            echo "PGSSL=require" >> "$GITHUB_ENV"
+            echo "USE_LOCAL_DB=0" >> "$GITHUB_ENV"
+          else
+            echo "DATABASE_URL=$LOCAL_DB" >> "$GITHUB_ENV"
+            echo "USE_LOCAL_DB=1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Restore database snapshot
+        id: dbcache
+        if: env.USE_LOCAL_DB == '1'
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/db.dump
+          key: gridiron-db-${{ github.run_id }}
+          restore-keys: gridiron-db-
+
+      - name: Bootstrap snapshot from release (first run)
+        if: env.USE_LOCAL_DB == '1' && steps.dbcache.outputs.cache-matched-key == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download db-snapshot --repo "$GITHUB_REPOSITORY" -p db.dump -D .cache --clobber || echo "no bootstrap snapshot; a full backfill will run"
+
+      - name: Load snapshot into PostgreSQL
+        if: env.USE_LOCAL_DB == '1' && hashFiles('.cache/db.dump') != ''
+        run: docker exec -i ${{ job.services.postgres.id }} pg_restore -U gridiron -d gridiron --no-owner --clean --if-exists < .cache/db.dump || true
+
+      - name: Sync nflverse → PostgreSQL
+        run: |
+          JOB="${{ github.event.inputs.job }}"
+          if [ -z "$JOB" ]; then JOB=in-season; fi
+          python scripts/sync/sync.py migrate
+          GAMES=$(python -c "import os,psycopg;print(psycopg.connect(os.environ['DATABASE_URL']).execute('select count(*) from games').fetchone()[0])")
+          echo "games in database: $GAMES"
+          # Empty database: full backfill from 2016.
+          if [ "${GAMES:-0}" = "0" ]; then JOB=all; fi
+          FORCE=""
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then FORCE="--force"; fi
+          if [ "$JOB" != "none" ]; then python scripts/sync/sync.py $JOB $FORCE; fi
+          case "$JOB" in all|in-season|ratings|none|bios) ;; *) python scripts/sync/sync.py ratings ;; esac
+
+      - name: Save database snapshot
+        if: env.USE_LOCAL_DB == '1'
+        run: |
+          mkdir -p .cache
+          docker exec ${{ job.services.postgres.id }} pg_dump -U gridiron -Fc --no-owner gridiron > .cache/db.dump
+          ls -lh .cache/db.dump
+      - uses: actions/cache/save@v4
+        if: env.USE_LOCAL_DB == '1'
+        with:
+          path: .cache/db.dump
+          key: gridiron-db-${{ github.run_id }}
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build static site from database
+        env:
+          VITE_DATA_MODE: static
+          VITE_GITHUB_REPO: ${{ github.repository }}
+        run: |
+          npx vite build
+          npx tsx scripts/export-static.ts
+          touch dist/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 1800000

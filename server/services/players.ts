@@ -43,7 +43,7 @@ export async function listPlayers(f: PlayerFilters): Promise<PlayersPage> {
       `SELECT ${LIST_COLS}, COUNT(*) OVER() AS total FROM player_ratings r
          JOIN players p ON p.id = r.player_id LEFT JOIN teams t ON t.id = r.team_id
         WHERE ${where.join(' AND ')}
-        ORDER BY r.overall_score DESC NULLS LAST, p.display_name
+        ORDER BY r.overall_score DESC NULLS LAST, r.composite_raw DESC NULLS LAST, p.display_name
         LIMIT $${params.length - 1} OFFSET $${params.length}`, params);
     return { season, total: rows[0]?.total ?? 0, page, pageSize, items: rows.map(toListItem) };
   });

@@ -80,9 +80,9 @@ export default function Home() {
         <Section title="Upcoming" kicker="Next on the schedule" action={{ to: '/schedule', label: 'All games' }}>
           {upcoming.length ? <div className="grid gap-3 sm:grid-cols-2">{upcoming.map((g) => <GameCard key={g.id} g={g} compact />)}</div> : <EmptyState title="NO UPCOMING GAMES" />}
         </Section>
-        <Section title="Top players" kicker={`${h.season} GRIDIRON Analytics Rating`} action={{ to: '/players', label: 'Leaderboards' }}>
+        <Section title="Top players" kicker={`${h.season} position leaders · GRIDIRON Analytics Rating`} action={{ to: '/players', label: 'Leaderboards' }}>
           <div className="panel p-2">
-            {h.topPlayers.length ? h.topPlayers.slice(0, 8).map((p, i) => <PlayerListRow key={p.id} p={p} rank={i + 1} />) : <EmptyState title="INSUFFICIENT DATA" />}
+            {h.topPlayers.length ? h.topPlayers.map((p) => <PlayerListRow key={p.id} p={p} />) : <EmptyState title="INSUFFICIENT DATA" />}
           </div>
         </Section>
       </div>

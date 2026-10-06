@@ -30,8 +30,13 @@ export function getHome(): Promise<HomeResponse> {
         game: x.game, edge: x.m!.overall,
         topUnit: [...x.m!.units].filter((u) => u.margin != null).sort((a, b) => Math.abs(b.margin!) - Math.abs(a.margin!))[0] ?? null,
       }));
-    let top = await listPlayers({ season: S, pageSize: 12 });
-    if (!top.items.length) top = await listPlayers({ season: S - 1, pageSize: 12 });
+    // Position leaders: the top-rated player at each position (ratings are percentiles within position).
+    const leaders = async (season: number) => (await Promise.all(
+      ['QB', 'RB', 'WR', 'TE', 'OL', 'EDGE', 'DL', 'LB', 'CB', 'S'].map((pos) => listPlayers({ season, position: pos, pageSize: 1 })),
+    )).flatMap((r) => r.items);
+    let topItems = await leaders(S);
+    if (!topItems.length) topItems = await leaders(S - 1);
+    const top = { items: topItems };
     return {
       season: S, week: W,
       featured: featured ? { game: featured.game, matchup: featured.m } : null,

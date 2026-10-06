@@ -59,7 +59,7 @@ export function PlayerDetail({ p, teamColor }: { p: PlayerCardData; teamColor?: 
         </div>
       ) : null}
       {r && r.overall != null && (
-        <div className="space-y-1.5">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
           <StatBar label="Efficiency" value={r.efficiency} />
           <StatBar label="Advanced impact" value={r.advanced} />
           <StatBar label="Production" value={r.production} />
@@ -133,7 +133,7 @@ function Popover({ anchor, children, onEnter, onLeave }: { anchor: HTMLElement; 
   useLayoutEffect(() => {
     const a = anchor.getBoundingClientRect();
     const el = ref.current;
-    const w = el?.offsetWidth ?? 360, h = el?.offsetHeight ?? 480;
+    const w = el?.offsetWidth ?? 380, h = el?.offsetHeight ?? 480;
     let left = a.right + 12;
     if (left + w > window.innerWidth - 8) left = a.left - w - 12;
     if (left < 8) left = Math.max(8, Math.min(window.innerWidth - w - 8, a.left + a.width / 2 - w / 2));
@@ -147,7 +147,7 @@ function Popover({ anchor, children, onEnter, onLeave }: { anchor: HTMLElement; 
       role="tooltip"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      className="panel fixed z-[80] w-[360px] animate-rise p-4 shadow-2xl"
+      className="panel fixed z-[80] w-[380px] animate-rise p-4 shadow-2xl"
       style={{ left: pos?.left ?? -9999, top: pos?.top ?? -9999, background: 'linear-gradient(180deg, rgba(18,27,48,0.97), rgba(7,11,20,0.98))' }}
     >
       {children}

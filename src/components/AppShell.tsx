@@ -45,7 +45,7 @@ export function SearchPalette({ open, onClose }: { open: boolean; onClose: () =>
   const input = useRef<HTMLInputElement>(null);
   const { meta } = useSeason();
   useEffect(() => { const t = setTimeout(() => setDebounced(q), 160); return () => clearTimeout(t); }, [q]);
-  useEffect(() => { if (open) { setQ(''); setIdx(0); setTimeout(() => input.current?.focus(), 10); } }, [open]);
+  useEffect(() => { if (open) { setQ(''); setIdx(0); input.current?.focus(); } }, [open]);
   const { data, isFetching, isError } = useQuery({
     queryKey: ['search', debounced], queryFn: () => client.search(debounced, meta?.currentSeason ?? new Date().getFullYear()),
     enabled: open && debounced.trim().length >= 2, staleTime: 60_000,
@@ -69,7 +69,7 @@ export function SearchPalette({ open, onClose }: { open: boolean; onClose: () =>
         <div className="flex items-center gap-3 border-b border-line px-4">
           <Search className="h-5 w-5 text-fg-muted" aria-hidden="true" />
           <input
-            ref={input} value={q} onChange={(e) => { setQ(e.target.value); setIdx(0); }}
+            ref={input} autoFocus value={q} onChange={(e) => { setQ(e.target.value); setIdx(0); }}
             onKeyDown={(e) => {
               if (e.key === 'Escape') onClose();
               if (e.key === 'ArrowDown') { e.preventDefault(); setIdx((i) => Math.min(items.length - 1, i + 1)); }

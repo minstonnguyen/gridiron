@@ -43,7 +43,7 @@ export default function DataSources() {
           {DATASETS.map(([n, f, d]) => (
             <div key={n} className="grid gap-1 px-4 py-3 sm:grid-cols-[180px_1fr]">
               <div className="font-semibold">{n}</div>
-              <div><code className="text-xs text-ice">{f}</code><div className="text-sm text-fg-muted">{d}</div></div>
+              <div><code className="break-all text-xs text-ice">{f}</code><div className="text-sm text-fg-muted">{d}</div></div>
             </div>
           ))}
         </div>

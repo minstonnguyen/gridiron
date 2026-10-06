@@ -89,8 +89,6 @@ function BioPanel({ p }: { p: Profile }) {
         <div className="panel-hd">Profile</div>
         {p.bio?.bio ? <p>{p.bio.bio}</p> : <p className="kicker">BIO DATA UNAVAILABLE</p>}
         {p.bio?.career && <p>{p.bio.career}</p>}
-        {p.bio?.college && <p>{p.bio.college}</p>}
-        {p.bio?.draft && <p>{p.bio.draft}</p>}
         <p className="flex items-start gap-2 text-[11px] text-fg-dim"><Info className="mt-0.5 h-3 w-3 shrink-0" />Bio text is generated only from facts and statistics stored in the GRIDIRON database (nflverse player, roster and stats tables).</p>
       </div>
     </div>
@@ -133,7 +131,7 @@ export default function PlayerProfile() {
         <div className="absolute inset-0 stripe opacity-60" />
         {p.team?.logo && <img src={p.team.logo} alt="" aria-hidden="true" className="pointer-events-none absolute -right-10 -top-10 h-80 w-80 opacity-[0.07]" />}
         <div className="relative grid gap-6 p-5 sm:p-8 md:grid-cols-[auto_1fr_auto] md:items-end">
-          <Headshot src={p.headshot} alt={p.name} className="mx-auto h-44 w-44 rounded-xl bg-ink-800/60 md:mx-0 md:h-56 md:w-56" imgClassName="object-contain object-bottom" />
+          <Headshot width={480} src={p.headshot} alt={p.name} className="mx-auto h-44 w-44 rounded-xl bg-ink-800/60 md:mx-0 md:h-56 md:w-56" imgClassName="object-contain object-bottom" />
           <div className="min-w-0 text-center md:text-left">
             <div className="kicker flex flex-wrap items-center justify-center gap-2 md:justify-start">
               {p.team && <Link to={`/team/${p.team.abbr}`} className="flex items-center gap-1.5 hover:text-fg"><TeamLogo src={p.team.logo} abbr={p.team.abbr} size={20} />{p.team.name}</Link>}
@@ -195,28 +193,28 @@ export default function PlayerProfile() {
                 <CartesianGrid stroke="rgba(148,170,210,0.08)" vertical={false} />
                 <XAxis dataKey="season" {...axis} /><YAxis domain={[40, 100]} {...axis} /><Tooltip {...tt} />
                 <ReferenceLine y={90} stroke="#c49bff" strokeDasharray="3 3" strokeOpacity={0.4} />
-                <Line type="monotone" dataKey="overall" name="Rating" stroke={color} strokeWidth={2.5} dot={{ r: 3, fill: color }} />
+                <Line isAnimationActive={false} type="monotone" dataKey="overall" name="Rating" stroke={color} strokeWidth={2.5} dot={{ r: 3, fill: color }} />
               </LineChart></ResponsiveContainer>
             </ChartCard>
             <ChartCard title="Last 5 games" sub={`Weekly game grades · ${activeSeason ?? ''}`} empty={!last5.length}>
               <ResponsiveContainer><BarChart data={last5.map((g) => ({ name: `W${g.week} ${g.opp ?? ''}`, grade: g.gameScore }))} margin={{ left: -20, right: 8, top: 6 }}>
                 <CartesianGrid stroke="rgba(148,170,210,0.08)" vertical={false} />
                 <XAxis dataKey="name" {...axis} /><YAxis domain={[0, 100]} {...axis} /><Tooltip {...tt} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
-                <Bar dataKey="grade" name="Game grade" radius={[4, 4, 0, 0]}>{last5.map((g, i) => <Cell key={i} fill={tierColor(g.gameScore)} />)}</Bar>
+                <Bar isAnimationActive={false} dataKey="grade" name="Game grade" radius={[4, 4, 0, 0]}>{last5.map((g, i) => <Cell key={i} fill={tierColor(g.gameScore)} />)}</Bar>
               </BarChart></ResponsiveContainer>
             </ChartCard>
             <ChartCard title="EPA trend" sub={tk.epa ? `Expected points added per game · ${activeSeason ?? ''}` : 'EPA is not tracked for this position'} empty={!tk.epa || !seasonLog.some((g) => g[tk.epa!] != null)}>
               <ResponsiveContainer><LineChart data={seasonLog.map((g) => ({ wk: `W${g.week}`, epa: g[tk.epa ?? ''] }))} margin={{ left: -20, right: 8, top: 6 }}>
                 <CartesianGrid stroke="rgba(148,170,210,0.08)" vertical={false} />
                 <XAxis dataKey="wk" {...axis} /><YAxis {...axis} /><Tooltip {...tt} /><ReferenceLine y={0} stroke="#5f6b84" />
-                <Line type="monotone" dataKey="epa" name="EPA" stroke="#5ad8ff" strokeWidth={2} dot={{ r: 2.5 }} />
+                <Line isAnimationActive={false} type="monotone" dataKey="epa" name="EPA" stroke="#5ad8ff" strokeWidth={2} dot={{ r: 2.5 }} />
               </LineChart></ResponsiveContainer>
             </ChartCard>
             <ChartCard title="Production trend" sub={`${tk.prodLabel} per game · ${activeSeason ?? ''}`} empty={!seasonLog.some((g) => g[tk.prod] != null)}>
               <ResponsiveContainer><BarChart data={seasonLog.map((g) => ({ wk: `W${g.week}`, v: g[tk.prod] }))} margin={{ left: -20, right: 8, top: 6 }}>
                 <CartesianGrid stroke="rgba(148,170,210,0.08)" vertical={false} />
                 <XAxis dataKey="wk" {...axis} /><YAxis {...axis} /><Tooltip {...tt} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
-                <Bar dataKey="v" name={tk.prodLabel} fill={color} radius={[3, 3, 0, 0]} />
+                <Bar isAnimationActive={false} dataKey="v" name={tk.prodLabel} fill={color} radius={[3, 3, 0, 0]} />
               </BarChart></ResponsiveContainer>
             </ChartCard>
           </div>
