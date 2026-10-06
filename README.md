@@ -62,7 +62,7 @@ Admin (requires `Authorization: Bearer $ADMIN_TOKEN`): `GET /api/admin/health`, 
 
 `.github/workflows/deploy.yml` runs on push, on a schedule (daily, every 6 h in season) and on demand (**Actions → Sync & Deploy → Run workflow**, choose a job):
 
-1. Starts a PostgreSQL service container and restores the last database snapshot (Actions cache, or the `db-snapshot` release on first run). With an empty database it runs a full backfill.
+1. Starts a PostgreSQL service container and restores the last database snapshot (Actions cache, or the `db.dump` file on the `db-snapshot` branch on first run). With an empty database it runs a full backfill.
 2. Runs the Python sync, recalculates ratings, saves a new snapshot.
 3. Builds the React app and exports the database to static JSON, then deploys to Pages.
 

@@ -82,11 +82,15 @@ jobs:
           key: gridiron-db-${{ github.run_id }}
           restore-keys: gridiron-db-
 
-      - name: Bootstrap snapshot from release (first run)
+      - name: Bootstrap snapshot from db-snapshot branch (first run)
         if: env.USE_LOCAL_DB == '1' && steps.dbcache.outputs.cache-matched-key == ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release download db-snapshot --repo "$GITHUB_REPOSITORY" -p db.dump -D .cache --clobber || echo "no bootstrap snapshot; a full backfill will run"
+        run: |
+          mkdir -p .cache
+          if git fetch --depth 1 origin db-snapshot; then
+            git show FETCH_HEAD:db.dump > .cache/db.dump && ls -la .cache/db.dump
+          else
+            echo "no bootstrap snapshot; a full backfill will run"
+          fi
 
       - name: Load snapshot into PostgreSQL
         if: env.USE_LOCAL_DB == '1' && hashFiles('.cache/db.dump') != ''
