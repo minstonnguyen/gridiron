@@ -729,9 +729,9 @@ def syncSeasonStats(log: Log, seasons: list[int] | None = None, force: bool = Fa
         meta_key = "season_advanced"
         pmeta = None
         try:
-            from .sources import head, url_for
+            from .sources import resolve
 
-            pmeta = head(url_for("pbp", season))
+            _, pmeta = resolve("pbp", season)
         except Exception:  # noqa: BLE001
             pass
         if pmeta is None or not pmeta.available:
@@ -847,16 +847,31 @@ def syncBios(seasons: list[int] | None = None, force: bool = False):
     return build_bios()
 
 
-def syncAll(seasons: list[int] | None = None, force: bool = False):
+def run_steps(steps: list[tuple[str, Callable[[], object]]]) -> list[str]:
+    """Run each job independently: one failing upstream dataset must not block the rest.
+    Failures are already recorded in sync_runs; existing rows are left untouched."""
+    failed: list[str] = []
+    for name, fn in steps:
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            print(f"!! {name} failed: {exc}", flush=True)
+            failed.append(name)
+    return failed
+
+
+def syncAll(seasons: list[int] | None = None, force: bool = False) -> list[str]:
     db.migrate()
-    syncTeams(force=force)
-    syncPlayers(force=force)
-    syncGames(force=force)
-    syncRosters(seasons, force=force)
-    syncDepthCharts(seasons, force=force)
-    syncInjuries(seasons, force=force)
-    syncWeeklyStats(seasons, force=force)
-    syncSeasonStats(seasons, force=force)
-    syncNextGenStats(force=force)
-    calculateRatings(seasons)
-    syncBios()
+    return run_steps([
+        ("teams", lambda: syncTeams(force=force)),
+        ("players", lambda: syncPlayers(force=force)),
+        ("games", lambda: syncGames(force=force)),
+        ("rosters", lambda: syncRosters(seasons, force=force)),
+        ("depth_charts", lambda: syncDepthCharts(seasons, force=force)),
+        ("injuries", lambda: syncInjuries(seasons, force=force)),
+        ("weekly_stats", lambda: syncWeeklyStats(seasons, force=force)),
+        ("season_stats", lambda: syncSeasonStats(seasons, force=force)),
+        ("next_gen_stats", lambda: syncNextGenStats(force=force)),
+        ("ratings", lambda: calculateRatings(seasons)),
+        ("bios", lambda: syncBios()),
+    ])

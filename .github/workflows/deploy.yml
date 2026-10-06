@@ -97,6 +97,10 @@ jobs:
         run: docker exec -i ${{ job.services.postgres.id }} pg_restore -U gridiron -d gridiron --no-owner --clean --if-exists < .cache/db.dump || true
 
       - name: Sync nflverse → PostgreSQL
+        id: sync
+        # An upstream nflverse outage/format change must not take the site down:
+        # failed jobs are logged (Data Health page) and the site redeploys with the last good data.
+        continue-on-error: true
         run: |
           JOB="${{ github.event.inputs.job }}"
           if [ -z "$JOB" ]; then JOB=in-season; fi
@@ -137,6 +141,10 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+      - name: Report sync failures
+        if: steps.sync.outcome == 'failure'
+        run: echo "::warning title=nflverse sync::One or more sync jobs failed; the site was deployed with the last good data. See the Sync step log and /admin/data."
 
   deploy:
     needs: build

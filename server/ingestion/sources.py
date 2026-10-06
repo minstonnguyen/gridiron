@@ -24,7 +24,7 @@ RELEASES = "https://github.com/nflverse/nflverse-data/releases/download"
 CATALOG: dict[str, str] = {
     "players": f"{RELEASES}/players/players.parquet",
     "teams": f"{RELEASES}/teams/teams_colors_logos.csv",
-    "schedules": f"{RELEASES}/schedules/games.csv",
+    "schedules": f"{RELEASES}/schedules/games.parquet",
     "rosters_weekly": f"{RELEASES}/weekly_rosters/roster_weekly_{{season}}.csv",
     "depth_charts": f"{RELEASES}/depth_charts/depth_charts_{{season}}.csv",
     "injuries": f"{RELEASES}/injuries/injuries_{{season}}.csv",
@@ -123,9 +123,29 @@ def read_frame(path: Path, columns: Iterable[str] | None = None) -> pd.DataFrame
     return pd.read_csv(path, low_memory=False, compression="infer")
 
 
+def candidates(url: str) -> list[str]:
+    """nflverse occasionally changes an asset's format (e.g. games.csv -> games.csv.gz / games.parquet).
+    Try the catalogued URL first, then the same asset in the other published formats."""
+    for ext in (".csv.gz", ".csv", ".parquet"):
+        if url.endswith(ext):
+            stem = url[: -len(ext)]
+            return [url] + [stem + e for e in (".parquet", ".csv.gz", ".csv") if e != ext]
+    return [url]
+
+
+def resolve(dataset: str, season: int | None = None) -> tuple[str, RemoteMeta]:
+    """Return the first available URL (and its metadata) for a dataset."""
+    first: RemoteMeta | None = None
+    for url in candidates(url_for(dataset, season)):
+        meta = head(url)
+        if meta.available:
+            return url, meta
+        first = first or meta
+    return url_for(dataset, season), first or RemoteMeta(url_for(dataset, season), False)
+
+
 def load(dataset: str, season: int | None = None, columns: Iterable[str] | None = None) -> tuple[pd.DataFrame | None, RemoteMeta]:
-    url = url_for(dataset, season)
-    meta = head(url)
+    url, meta = resolve(dataset, season)
     if not meta.available:
         return None, meta
     path = download(url, meta)

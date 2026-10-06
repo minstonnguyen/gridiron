@@ -44,11 +44,16 @@ def main() -> int:
         return 0
     if j == "in-season":
         cur = [CURRENT_SEASON]
-        sync.syncTeams(); sync.syncPlayers(); sync.syncGames()
-        sync.syncRosters(cur); sync.syncDepthCharts(cur); sync.syncInjuries(cur)
-        sync.syncWeeklyStats(cur); sync.syncSeasonStats(cur); sync.syncNextGenStats()
-        sync.calculateRatings(cur); sync.syncBios()
-        return 0
+        failed = sync.run_steps([
+            ("teams", sync.syncTeams), ("players", sync.syncPlayers), ("games", sync.syncGames),
+            ("rosters", lambda: sync.syncRosters(cur)), ("depth_charts", lambda: sync.syncDepthCharts(cur)),
+            ("injuries", lambda: sync.syncInjuries(cur)), ("weekly_stats", lambda: sync.syncWeeklyStats(cur)),
+            ("season_stats", lambda: sync.syncSeasonStats(cur)), ("next_gen_stats", sync.syncNextGenStats),
+            ("ratings", lambda: sync.calculateRatings(cur)), ("bios", sync.syncBios),
+        ])
+        if failed:
+            print(f"completed with failures: {', '.join(failed)}", file=sys.stderr)
+        return 1 if failed else 0
     jobs = {
         "all": lambda: sync.syncAll(seasons, force=a.force),
         "teams": lambda: sync.syncTeams(force=a.force),
@@ -68,7 +73,10 @@ def main() -> int:
         print(f"unknown job {a.job}; choose from {', '.join(jobs)}", file=sys.stderr)
         return 2
     print(f"GRIDIRON sync '{j}' seasons={seasons or f'{START_SEASON}-{CURRENT_SEASON}'}")
-    jobs[j]()
+    result = jobs[j]()
+    if j == "all" and result:
+        print(f"completed with failures: {', '.join(result)}", file=sys.stderr)
+        return 1
     return 0
 
 
