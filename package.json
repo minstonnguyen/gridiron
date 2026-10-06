@@ -1,0 +1,47 @@
+{
+  "name": "gridiron",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:api": "tsx watch server/api/index.ts",
+    "api": "tsx server/api/index.ts",
+    "build": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit && vite build",
+    "build:static": "VITE_DATA_MODE=static vite build && tsx scripts/export-static.ts",
+    "export:static": "tsx scripts/export-static.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit",
+    "sync": "python3 scripts/sync/sync.py all",
+    "sync:in-season": "python3 scripts/sync/sync.py in-season",
+    "migrate": "python3 scripts/sync/sync.py migrate"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@tanstack/react-query": "^5.104.1",
+    "clsx": "^2.1.1",
+    "compression": "^1.8.2",
+    "express": "^4.22.3",
+    "lucide-react": "^1.52.0",
+    "pg": "^8.23.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6",
+    "recharts": "^2.15.4"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.8.1",
+    "@types/express": "^4.17.25",
+    "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.29",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.21"
+  }
+}

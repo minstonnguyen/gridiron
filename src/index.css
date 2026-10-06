@@ -1,0 +1,116 @@
+@import '@fontsource/barlow-condensed/500.css';
+@import '@fontsource/barlow-condensed/600.css';
+@import '@fontsource/barlow-condensed/700.css';
+@import '@fontsource/barlow-condensed/800.css';
+@import '@fontsource/barlow-condensed/700-italic.css';
+@import '@fontsource/barlow/400.css';
+@import '@fontsource/barlow/500.css';
+@import '@fontsource/barlow/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --team: #5ad8ff;
+  --team2: #1a2540;
+  color-scheme: dark;
+}
+
+html, body { background: #070b14; color: #e9eef8; }
+body {
+  font-family: Barlow, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(90, 216, 255, 0.07), transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, rgba(200, 255, 77, 0.04), transparent 60%),
+    #070b14;
+  min-height: 100vh;
+}
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Machined-metal panel used across the app */
+.panel {
+  position: relative;
+  background: linear-gradient(180deg, rgba(26, 37, 64, 0.55), rgba(10, 16, 28, 0.85));
+  border: 1px solid rgba(148, 170, 210, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 18px 40px -24px rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+}
+.panel-hd {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: #8d99b1;
+}
+.kicker {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: #8d99b1;
+}
+.display { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.01em; line-height: 0.92; }
+
+/* Diagonal broadcast stripe */
+.stripe {
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 9px);
+}
+
+.focus-ring:focus-visible, button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid #5ad8ff;
+  outline-offset: 2px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(38, 50, 79, 0.45) 0%, rgba(58, 74, 110, 0.6) 50%, rgba(38, 50, 79, 0.45) 100%);
+  background-size: 200% 100%;
+  animation: sheen 1.6s linear infinite;
+  border-radius: 8px;
+}
+@keyframes sheen { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* Player card */
+.pcard {
+  --c: var(--team);
+  position: relative;
+  border-radius: 12px;
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--c) 38%, transparent) 0%, transparent 55%),
+    linear-gradient(180deg, #121b30 0%, #0a101c 100%);
+  border: 1px solid color-mix(in srgb, var(--c) 35%, rgba(148,170,210,0.15));
+  transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s ease, border-color .22s ease;
+  overflow: hidden;
+}
+.pcard::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle, 0deg), transparent 0 70%, color-mix(in srgb, var(--c) 90%, white) 80%, transparent 90%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity .25s ease;
+  pointer-events: none;
+}
+.pcard:hover, .pcard:focus-visible { transform: translateY(-3px); box-shadow: 0 16px 36px -16px color-mix(in srgb, var(--c) 70%, black); }
+.pcard:hover::after, .pcard:focus-visible::after { opacity: 1; animation: spin 2.6s linear infinite; }
+@property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes spin { to { --angle: 360deg; } }
+
+/* Field */
+.turf {
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 10%, rgba(0,0,0,0.05) 10% 20%),
+    radial-gradient(ellipse at 50% 40%, #13402a 0%, #0c2a1c 55%, #071810 100%);
+}
+
+.scrollbar-thin { scrollbar-width: thin; scrollbar-color: #26324f transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
