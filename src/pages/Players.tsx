@@ -59,11 +59,22 @@ export default function Players() {
   const { season, meta, setSeason } = useSeason();
   const [pos, setPos] = useState<string>('QB');
   const [team, setTeam] = useState('');
+  // '' = any draft class, 'UDFA' = no draft record, otherwise a draft year
+  const [draft, setDraft] = useState('');
   const [page, setPage] = useState(1);
-  const list = usePlayers(season, pos);
+  const draftYear = draft === '' ? undefined : draft === 'UDFA' ? 0 : Number(draft);
+  const list = usePlayers(season, pos, draftYear);
   const teams = useTeams();
-  useEffect(() => setPage(1), [pos, team, season]);
-  const items = useMemo(() => (list.data?.items ?? []).filter((p) => !team || p.team === team), [list.data, team]);
+  useEffect(() => setPage(1), [pos, team, season, draft]);
+  const draftClasses = useMemo(() => {
+    const top = season ?? new Date().getFullYear();
+    return Array.from({ length: top - 1999 }, (_, i) => top - i);
+  }, [season]);
+  const items = useMemo(() => (list.data?.items ?? []).filter((p) =>
+    (!team || p.team === team) &&
+    (draftYear == null ? p.overall != null : draftYear === 0 ? p.draftYear == null : p.draftYear === draftYear),
+  ), [list.data, team, draftYear]);
+  const rated = items.filter((p) => p.overall != null).length;
   const pages = Math.max(1, Math.ceil(items.length / PAGE));
   const shown = items.slice((page - 1) * PAGE, page * PAGE);
   const sel = 'rounded-md border border-line bg-ink-800 px-3 py-2 font-display text-sm font-bold tracking-wider';
@@ -87,11 +98,20 @@ export default function Players() {
         <select aria-label="Team" className={sel} value={team} onChange={(e) => setTeam(e.target.value)}>
           <option value="">ALL TEAMS</option>{teams.data?.map((t) => <option key={t.abbr} value={t.abbr}>{t.abbr}</option>)}
         </select>
-        <span className="kicker">{pos === 'ALL' ? 'Top rated, all positions' : POSITION_NAMES[pos]} · {items.length} rated</span>
+        <select aria-label="Draft class" className={sel} value={draft} onChange={(e) => setDraft(e.target.value)}>
+          <option value="">ALL DRAFT CLASSES</option>
+          {draftClasses.map((y) => <option key={y} value={y}>{y} DRAFT CLASS</option>)}
+          <option value="UDFA">UNDRAFTED</option>
+        </select>
+        {draft && <button onClick={() => setDraft('')} className="kicker rounded-md px-2 py-1 text-ice hover:bg-white/5">CLEAR</button>}
+        <span className="kicker">
+          {pos === 'ALL' ? 'All positions' : POSITION_NAMES[pos]}
+          {draft ? ` · ${draft === 'UDFA' ? 'Undrafted' : `${draft} draft class`} · ${items.length} players (${rated} rated)` : ` · ${items.length} rated`}
+        </span>
       </div>
       {list.isLoading ? <div className="space-y-2">{Array.from({ length: 8 }, (_, i) => <Skeleton key={i} className="h-14" />)}</div>
         : list.isError ? <ErrorState error={list.error} onRetry={() => list.refetch()} />
-        : !items.length ? <EmptyState title="INSUFFICIENT DATA">No players with a rating for this filter. Early-season ratings need a minimum sample.</EmptyState>
+        : !items.length ? <EmptyState title={draft ? 'NO PLAYERS' : 'INSUFFICIENT DATA'}>{draft ? `No ${season} players from this draft class match these filters.` : 'No players with a rating for this filter. Early-season ratings need a minimum sample.'}</EmptyState>
         : (
           <>
             <div className="panel divide-y divide-white/5 p-2">

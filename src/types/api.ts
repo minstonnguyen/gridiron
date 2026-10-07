@@ -184,6 +184,9 @@ export interface PlayerListItem {
   tier: Tier | null;
   confidence: Confidence | null;
   positionRank: number | null;
+  draftYear: number | null;
+  draftRound: number | null;
+  draftPick: number | null;
 }
 
 export interface PlayersPage { season: number; total: number; page: number; pageSize: number; items: PlayerListItem[] }

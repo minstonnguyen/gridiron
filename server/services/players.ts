@@ -8,13 +8,14 @@ import type {
 } from '../../src/types/api.js';
 
 export const LIST_COLS = `p.gsis_id, p.display_name, p.position, p.headshot_url, p.jersey_number,
-  r.rating_position, r.overall_score, r.tier, r.confidence, r.position_rank, t.abbreviation AS team, t.primary_color`;
+  p.draft_year, p.draft_round, p.draft_pick, r.rating_position, r.overall_score, r.tier, r.confidence, r.position_rank, t.abbreviation AS team, t.primary_color`;
 
 export function toListItem(r: any): PlayerListItem {
   return {
     id: r.gsis_id, name: r.display_name, position: r.position, ratingPosition: r.rating_position ?? null, team: r.team ?? null,
     teamPrimary: r.primary_color ?? null, headshot: r.headshot_url, jersey: r.jersey_number, overall: r.overall_score ?? null,
     tier: r.tier ?? null, confidence: r.confidence ?? null, positionRank: r.position_rank ?? null,
+    draftYear: r.draft_year ?? null, draftRound: r.draft_round ?? null, draftPick: r.draft_pick ?? null,
   };
 }
 
@@ -23,7 +24,7 @@ export async function resolvePlayerId(id: string): Promise<number | null> {
   return row?.id ?? null;
 }
 
-export interface PlayerFilters { season?: number; position?: string; team?: string; q?: string; page?: number; pageSize?: number; rated?: boolean }
+export interface PlayerFilters { season?: number; position?: string; team?: string; q?: string; page?: number; pageSize?: number; rated?: boolean; draftYear?: number }
 
 export async function listPlayers(f: PlayerFilters): Promise<PlayersPage> {
   const meta = await getMeta();
@@ -35,6 +36,9 @@ export async function listPlayers(f: PlayerFilters): Promise<PlayersPage> {
   if (f.position) { params.push(f.position.toUpperCase()); where.push(`r.rating_position = $${params.length}`); }
   if (f.team) { params.push(f.team.toUpperCase()); where.push(`t.abbreviation = $${params.length}`); }
   if (f.q) { params.push(`%${f.q.toLowerCase()}%`); where.push(`p.search_text LIKE $${params.length}`); }
+  // draftYear 0 = undrafted (no draft year recorded by nflverse)
+  if (f.draftYear === 0) where.push('p.draft_year IS NULL');
+  else if (f.draftYear) { params.push(f.draftYear); where.push(`p.draft_year = $${params.length}`); }
   if (f.rated !== false) where.push('r.overall_score IS NOT NULL');
   params.push(pageSize, (page - 1) * pageSize);
   const key = `players:${JSON.stringify({ season, ...f, page, pageSize })}`;
@@ -73,7 +77,7 @@ export async function getPlayer(id: string): Promise<PlayerProfile | null> {
     age, college: p.college, experience: p.experience, status: p.status, rookieSeason: p.rookie_season,
     draft: { year: p.draft_year, round: p.draft_round, pick: p.draft_pick, team: p.draft_team },
     headshot: p.headshot_url, team: teamId ? byId.get(teamId) ?? null : null,
-    currentStatus: card?.status ?? { code: 'UNAVAILABLE', label: 'STATUS UNAVAILABLE', gameStatus: null, practice: null, injury: null, week: null },
+    currentStatus: card?.status ?? { code: 'UNAVAILABLE', label: 'NO INJURY REPORT YET', gameStatus: null, practice: null, injury: null, week: null },
     bio: p.bio || p.career_summary ? { bio: p.bio, career: p.career_summary, college: p.college_summary, draft: p.draft_summary } : null,
     ratings: ratings.map((r) => toRating(r)),
   };

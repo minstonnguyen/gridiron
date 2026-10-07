@@ -14,8 +14,8 @@ export const usePlayerStats = (id: string) => useQuery({ queryKey: ['pstats', id
 export const usePlayerRating = (id: string, season?: number) =>
   useQuery({ queryKey: ['prating', id, season ?? 'latest'], queryFn: () => client.playerRating(id, season), staleTime: 10 * 60_000 });
 export const useGameLog = (id: string, enabled = true) => useQuery({ queryKey: ['glog', id], queryFn: () => client.gameLog(id), enabled });
-export const usePlayers = (season: number | undefined, position: string) =>
-  useQuery({ queryKey: ['players', season, position], queryFn: () => client.players(season!, position), enabled: season != null, staleTime: 10 * 60_000 });
+export const usePlayers = (season: number | undefined, position: string, draftYear?: number) =>
+  useQuery({ queryKey: ['players', season, position, draftYear], queryFn: () => client.players(season!, position, draftYear), enabled: season != null, staleTime: 10 * 60_000 });
 export const useTeam = (abbr: string, season: number | undefined) =>
   useQuery({ queryKey: ['team', abbr, season], queryFn: () => client.team(abbr, season!), enabled: season != null });
 export const useRoster = (abbr: string, season: number | undefined, enabled: boolean) =>

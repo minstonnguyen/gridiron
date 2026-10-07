@@ -79,15 +79,16 @@ async function main() {
     }, `games ${season}`);
   }
 
-  // Player leaderboards per season/position (all rated players), plus ALL (top 200).
+  // Player leaderboards per season/position, plus ALL — every player with a rating row
+  // (rated first, then INSUFFICIENT DATA) so draft-class/team filters work client-side.
   for (const season of seasons) {
     for (const pos of [...POSITIONS, 'ALL']) {
       const items: PlayerListItem[] = [];
       let page = 1, total = 0;
       do {
-        const r = await listPlayers({ season, position: pos === 'ALL' ? undefined : pos, page, pageSize: 200 });
+        const r = await listPlayers({ season, position: pos === 'ALL' ? undefined : pos, page, pageSize: 200, rated: false });
         items.push(...r.items); total = r.total; page++;
-      } while (pos !== 'ALL' && items.length < total);
+      } while (items.length < total);
       const out: PlayersPage = { season, total: items.length, page: 1, pageSize: items.length, items };
       await write(`players/${season}/${pos}.json`, out);
     }

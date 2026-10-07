@@ -14,7 +14,7 @@ export function PlayerListRow({ p, rank, showConfidence }: { p: PlayerListItem; 
       </div>
       <div className="min-w-0 flex-1">
         <div className="truncate font-semibold group-hover:text-white">{p.name}</div>
-        <div className="kicker !text-[0.62rem]">{p.ratingPosition ?? p.position} · {p.team ?? 'FA'}{p.jersey != null ? ` · #${p.jersey}` : ''}{p.positionRank ? ` · ${p.ratingPosition} #${p.positionRank}` : ''}</div>
+        <div className="kicker !text-[0.62rem]">{p.ratingPosition ?? p.position} · {p.team ?? 'FA'}{p.jersey != null ? ` · #${p.jersey}` : ''}{p.positionRank ? ` · ${p.ratingPosition} #${p.positionRank}` : ''}{p.draftYear ? ` · ${p.draftYear} R${p.draftRound ?? '?'}${p.draftPick ? ` #${p.draftPick}` : ''}` : ''}</div>
       </div>
       <div className="hidden text-right sm:block">
         <TierTag tier={p.tier} className="!text-[0.6rem]" />

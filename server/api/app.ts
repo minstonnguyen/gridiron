@@ -46,7 +46,7 @@ export function createApp() {
   app.get('/api/games/:id', h((r) => getGame(r.params.id)));
   app.get('/api/games/:id/lineups', h((r) => getLineups(r.params.id)));
   app.get('/api/games/:id/matchup', h((r) => getMatchup(r.params.id)));
-  app.get('/api/players', h((r) => listPlayers({ season: int(r.query.season), position: str(r.query.position), team: str(r.query.team), q: str(r.query.q), page: int(r.query.page), pageSize: int(r.query.pageSize) })));
+  app.get('/api/players', h((r) => listPlayers({ season: int(r.query.season), position: str(r.query.position), team: str(r.query.team), q: str(r.query.q), page: int(r.query.page), pageSize: int(r.query.pageSize), draftYear: int(r.query.draftYear), rated: r.query.rated === 'false' ? false : undefined })));
   app.get('/api/players/:id', h((r) => getPlayer(r.params.id), 300));
   app.get('/api/players/:id/stats', h((r) => getPlayerStats(r.params.id), 300));
   app.get('/api/players/:id/rating', h((r) => getPlayerRating(r.params.id, int(r.query.season)), 300));

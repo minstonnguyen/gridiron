@@ -14,7 +14,12 @@ import type { GameLogRow, PlayerProfile as Profile, RatingComponent } from '@/ty
 const TABS = ['OVERVIEW', 'SEASON', 'GAME LOG', 'ADVANCED', 'BIO'] as const;
 type Tab = (typeof TABS)[number];
 
-const tt = { contentStyle: { background: '#0b1220', border: '1px solid rgba(148,170,210,0.2)', borderRadius: 8, fontSize: 12 }, labelStyle: { color: '#8d99b1' } };
+const tt = {
+  contentStyle: { background: '#0e1729', border: '1px solid rgba(148,170,210,0.35)', borderRadius: 8, fontSize: 12, boxShadow: '0 8px 24px rgba(0,0,0,0.5)' },
+  labelStyle: { color: '#ffffff', fontWeight: 700, marginBottom: 2 },
+  itemStyle: { color: '#dbe4f3' },
+  wrapperStyle: { zIndex: 20, outline: 'none' },
+};
 const axis = { stroke: '#5f6b84', fontSize: 11, tickLine: false, axisLine: false } as const;
 
 function ChartCard({ title, sub, children, empty }: { title: string; sub?: string; children: React.ReactNode; empty?: boolean }) {

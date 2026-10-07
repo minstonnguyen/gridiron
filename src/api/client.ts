@@ -72,10 +72,11 @@ export const client = {
     DATA_MODE === 'static' ? file<StaticGameBundle>(`games/${id}.json`).then((b) => b.matchup) : api<MatchupResponse>(`/games/${id}/matchup`),
 
   /** Rated players for a season + position (≤ a few hundred rows); team filter & paging applied client-side. */
-  players: async (season: number, position: string): Promise<PlayersPage> =>
+  /** draftYear: undefined = any, 0 = undrafted. Static files hold every player with a rating row (rated or not); the page filters. */
+  players: async (season: number, position: string, draftYear?: number): Promise<PlayersPage> =>
     DATA_MODE === 'static'
       ? file<PlayersPage>(`players/${season}/${position}.json`)
-      : api<PlayersPage>(`/players?season=${season}${position !== 'ALL' ? `&position=${position}` : ''}&pageSize=200`),
+      : api<PlayersPage>(`/players?season=${season}${position !== 'ALL' ? `&position=${position}` : ''}${draftYear != null ? `&draftYear=${draftYear}` : ''}&rated=false&pageSize=200`),
 
   player: (id: string) =>
     DATA_MODE === 'static' ? file<StaticPlayerBundle>(`players/${id}.json`).then((b) => b.profile) : api<PlayerProfile>(`/players/${id}`),
