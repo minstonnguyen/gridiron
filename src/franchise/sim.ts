@@ -59,7 +59,7 @@ export function teamIndex(state: FranchiseState, team: string, tbl: StrengthTabl
   return 0.55 * z + 0.45 * prior;
 }
 
-export const MODEL = { marginPerSd: 0.6, homeEdge: 0.15, idxDiffVar: 0.9 }; // tuned by scripts/franchise/calibrate.ts
+export const MODEL = { marginPerSd: 0.68, homeEdge: 0.15, idxDiffVar: 0.9 }; // tuned by scripts/franchise/calibrate.ts
 
 /**
  * Results model (provisional until the Phase 3 play-by-play engine).

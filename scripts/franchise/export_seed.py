@@ -129,6 +129,22 @@ def main() -> None:
         ros = ros[ros.team_id.isin(tid2abbr)]
         roster_week = int(ros.week.max())
 
+        # Game-week lists show practice-squad call-ups (standard elevations) as active, which puts most clubs
+        # at 54-55. Elevations revert after the game, so players listed active this week who were on the same
+        # club's practice squad the week before go back to the practice squad.
+        prev = q(conn, """
+            with lw as (select team_id, max(week) w from rosters where season=%s group by team_id)
+            select r.team_id, r.player_id pid from rosters r join lw on lw.team_id=r.team_id and r.week=lw.w-1
+            where r.season=%s and r.roster_status='DEV'""", (season, season))
+        was_ps = set(zip(prev.team_id, prev.pid))
+        active_n = ros[ros.roster_status.isin(['ACT', 'INA'])].groupby('team_id').size().to_dict()
+        reverted = 0
+        for i, r in ros.iterrows():
+            if r.roster_status == 'ACT' and (r.team_id, r.pid) in was_ps and active_n.get(r.team_id, 0) > 53:
+                ros.at[i, 'roster_status'] = 'DEV'; ros.at[i, 'status_description'] = 'P01'
+                active_n[r.team_id] -= 1; reverted += 1
+        print(f"elevations reverted to practice squad: {reverted}")
+
         # use the season with the bigger sample: current season once >= 6 games, otherwise last season
         both = q(conn, "select player_id, season, rating_position, overall_score, confidence_score, tier, games_sample from player_ratings where season in (%s,%s) and overall_score is not null", (season - 1, season))
         pick_rows = {}

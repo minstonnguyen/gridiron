@@ -70,20 +70,26 @@ check('Injuries (multi-game episodes) per team-season', injuries / teamSeasons, 
 const simSeconds = (Date.now() - t0) / 1000 / seasons;
 
 // ---------- draft potential calibration (current rookies' hidden ceilings vs real hit rates) ----------
+// Hidden ceilings are random per career, so pool several careers and test the mean against the real rate.
+// The tolerance stays at the width for one class (2.5 standard errors at one class's sample size).
 {
-  const st = newGame(seed, cal, { team: 'KC', coach: 'x', name: 'x', ironman: false, assistantRoster: true });
+  const CAREERS = 8;
   const bucketTiers: Record<string, { n: number; starterPlus: number; expected: number }> = {};
-  for (const p of Object.values(st.players)) {
-    if (!p.draft?.year || p.draft.year !== st.season) continue;
-    const b = draftBucket(p.draft.round, p.draft.pick); if (!b) continue;
-    const probs = tierProbs(cal, p.group, b);
-    const x = (bucketTiers[b] ??= { n: 0, starterPlus: 0, expected: 0 });
-    x.n++; x.expected += probs.elite + probs.pro_bowl + probs.starter; if (p.pa >= 70) x.starterPlus++;
+  for (let k = 0; k < CAREERS; k++) {
+    const st = newGame(seed, cal, { team: seed.teams[k].abbr, coach: 'x', name: 'x', ironman: false, assistantRoster: true });
+    for (const p of Object.values(st.players)) {
+      if (!p.draft?.year || p.draft.year !== st.season) continue;
+      const b = draftBucket(p.draft.round, p.draft.pick); if (!b) continue;
+      const probs = tierProbs(cal, p.group, b);
+      const x = (bucketTiers[b] ??= { n: 0, starterPlus: 0, expected: 0 });
+      x.n++; x.expected += probs.elite + probs.pro_bowl + probs.starter; if (p.pa >= 70) x.starterPlus++;
+    }
   }
   for (const [b, x] of Object.entries(bucketTiers)) {
-    if (x.n < 15) continue;
-    const exp = x.expected / x.n, got = x.starterPlus / x.n, se = Math.sqrt(exp * (1 - exp) / x.n);
-    check(`2026 rookies ${b}: share with starter-or-better ceiling (n=${x.n})`, got, Math.max(0, exp - 2.5 * se - 0.03), Math.min(1, exp + 2.5 * se + 0.03));
+    const perClass = x.n / CAREERS;
+    if (perClass < 15) continue;
+    const exp = x.expected / x.n, got = x.starterPlus / x.n, se = Math.sqrt(exp * (1 - exp) / perClass);
+    check(`${seed.season} rookies ${b}: share with starter-or-better ceiling (${CAREERS} careers, ${perClass} per class)`, got, Math.max(0, exp - 2.5 * se), Math.min(1, exp + 2.5 * se));
   }
 }
 
