@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Calendar, Menu, Search, Shield, Swords, Trophy, Users, X } from 'lucide-react';
+import { Briefcase, Calendar, Menu, Search, Shield, Swords, Trophy, Users, X } from 'lucide-react';
 import clsx from 'clsx';
 import { useQuery } from '@tanstack/react-query';
 import { Wordmark } from './Logo';
@@ -17,6 +17,7 @@ const NAV = [
   { to: '/matchups', label: 'Matchups', icon: Swords },
   { to: '/players', label: 'Players', icon: Users },
   { to: '/teams', label: 'Teams', icon: Shield },
+  { to: '/franchise', label: 'Franchise', icon: Briefcase },
 ];
 
 function Selectors() {

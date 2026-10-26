@@ -136,7 +136,14 @@ jobs:
         run: |
           npx vite build
           npx tsx scripts/export-static.ts
+          python3 scripts/franchise/export_seed.py dist/data/franchise
           touch dist/.nojekyll
+
+      - name: Franchise Mode calibration and rules tests
+        run: |
+          if ! npx tsx scripts/franchise/calibrate.ts dist/data/franchise 6 --write dist/data/franchise/calibration-report.json; then
+            echo "::error title=Franchise calibration::One or more realism checks failed. See dist/data/franchise/calibration-report.json (shown on #/franchise/calibration)."
+          fi
 
       - uses: actions/upload-pages-artifact@v3
         with:

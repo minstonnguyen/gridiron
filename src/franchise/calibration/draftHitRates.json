@@ -1,0 +1,837 @@
+{
+ "classes": "2005-2019",
+ "n": 3817,
+ "definitions": {
+  "elite": "1+ AP First-Team All-Pro",
+  "pro_bowl": "2+ Pro Bowls, no First-Team All-Pro",
+  "starter": "4+ seasons as primary starter (PFR) or 1 Pro Bowl",
+  "contributor": "2-3 seasons started or 48+ games (3 full seasons of depth/rotation)",
+  "bust": "<2 seasons started and <48 games"
+ },
+ "overall": {
+  "R1 top10": {
+   "n": 150,
+   "elite": 0.273,
+   "pro_bowl": 0.173,
+   "starter": 0.38,
+   "contributor": 0.107,
+   "bust": 0.067
+  },
+  "R1 11-32": {
+   "n": 328,
+   "elite": 0.159,
+   "pro_bowl": 0.146,
+   "starter": 0.381,
+   "contributor": 0.232,
+   "bust": 0.082
+  },
+  "R2": {
+   "n": 477,
+   "elite": 0.061,
+   "pro_bowl": 0.075,
+   "starter": 0.35,
+   "contributor": 0.31,
+   "bust": 0.203
+  },
+  "R3": {
+   "n": 534,
+   "elite": 0.045,
+   "pro_bowl": 0.041,
+   "starter": 0.238,
+   "contributor": 0.326,
+   "bust": 0.35
+  },
+  "R4": {
+   "n": 552,
+   "elite": 0.029,
+   "pro_bowl": 0.024,
+   "starter": 0.17,
+   "contributor": 0.342,
+   "bust": 0.435
+  },
+  "R5": {
+   "n": 545,
+   "elite": 0.026,
+   "pro_bowl": 0.013,
+   "starter": 0.141,
+   "contributor": 0.268,
+   "bust": 0.552
+  },
+  "R6-7": {
+   "n": 1231,
+   "elite": 0.008,
+   "pro_bowl": 0.005,
+   "starter": 0.078,
+   "contributor": 0.213,
+   "bust": 0.696
+  }
+ },
+ "by_position": {
+  "CB": {
+   "R1 top10": {
+    "n": 10,
+    "elite": 0.3,
+    "pro_bowl": 0.2,
+    "starter": 0.3,
+    "contributor": 0.0,
+    "bust": 0.2
+   },
+   "R1 11-32": {
+    "n": 41,
+    "elite": 0.195,
+    "pro_bowl": 0.122,
+    "starter": 0.39,
+    "contributor": 0.244,
+    "bust": 0.049
+   },
+   "R2": {
+    "n": 51,
+    "elite": 0.039,
+    "pro_bowl": 0.039,
+    "starter": 0.353,
+    "contributor": 0.294,
+    "bust": 0.275
+   },
+   "R3": {
+    "n": 55,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.2,
+    "contributor": 0.4,
+    "bust": 0.4
+   },
+   "R4": {
+    "n": 42,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.119,
+    "contributor": 0.5,
+    "bust": 0.381
+   },
+   "R5": {
+    "n": 52,
+    "elite": 0.058,
+    "pro_bowl": 0.0,
+    "starter": 0.115,
+    "contributor": 0.308,
+    "bust": 0.519
+   },
+   "R6-7": {
+    "n": 99,
+    "elite": 0.01,
+    "pro_bowl": 0.01,
+    "starter": 0.02,
+    "contributor": 0.253,
+    "bust": 0.707
+   }
+  },
+  "DB": {
+   "R1 11-32": {
+    "n": 3,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.333,
+    "contributor": 0.333,
+    "bust": 0.333
+   },
+   "R2": {
+    "n": 3,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.333,
+    "contributor": 0.333,
+    "bust": 0.333
+   },
+   "R3": {
+    "n": 10,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.0,
+    "contributor": 0.4,
+    "bust": 0.6
+   },
+   "R4": {
+    "n": 12,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.0,
+    "contributor": 0.167,
+    "bust": 0.833
+   },
+   "R5": {
+    "n": 23,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.0,
+    "contributor": 0.13,
+    "bust": 0.87
+   },
+   "R6-7": {
+    "n": 40,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.025,
+    "contributor": 0.025,
+    "bust": 0.95
+   }
+  },
+  "EDGE": {
+   "R1 top10": {
+    "n": 21,
+    "elite": 0.333,
+    "pro_bowl": 0.19,
+    "starter": 0.19,
+    "contributor": 0.238,
+    "bust": 0.048
+   },
+   "R1 11-32": {
+    "n": 48,
+    "elite": 0.167,
+    "pro_bowl": 0.125,
+    "starter": 0.271,
+    "contributor": 0.354,
+    "bust": 0.083
+   },
+   "R2": {
+    "n": 49,
+    "elite": 0.0,
+    "pro_bowl": 0.061,
+    "starter": 0.306,
+    "contributor": 0.408,
+    "bust": 0.224
+   },
+   "R3": {
+    "n": 49,
+    "elite": 0.061,
+    "pro_bowl": 0.02,
+    "starter": 0.224,
+    "contributor": 0.367,
+    "bust": 0.327
+   },
+   "R4": {
+    "n": 45,
+    "elite": 0.022,
+    "pro_bowl": 0.067,
+    "starter": 0.2,
+    "contributor": 0.289,
+    "bust": 0.422
+   },
+   "R5": {
+    "n": 41,
+    "elite": 0.0,
+    "pro_bowl": 0.049,
+    "starter": 0.098,
+    "contributor": 0.341,
+    "bust": 0.512
+   },
+   "R6-7": {
+    "n": 106,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.028,
+    "contributor": 0.236,
+    "bust": 0.736
+   }
+  },
+  "IDL": {
+   "R1 top10": {
+    "n": 15,
+    "elite": 0.333,
+    "pro_bowl": 0.067,
+    "starter": 0.467,
+    "contributor": 0.067,
+    "bust": 0.067
+   },
+   "R1 11-32": {
+    "n": 43,
+    "elite": 0.14,
+    "pro_bowl": 0.116,
+    "starter": 0.465,
+    "contributor": 0.209,
+    "bust": 0.07
+   },
+   "R2": {
+    "n": 41,
+    "elite": 0.049,
+    "pro_bowl": 0.049,
+    "starter": 0.317,
+    "contributor": 0.317,
+    "bust": 0.268
+   },
+   "R3": {
+    "n": 62,
+    "elite": 0.016,
+    "pro_bowl": 0.032,
+    "starter": 0.339,
+    "contributor": 0.242,
+    "bust": 0.371
+   },
+   "R4": {
+    "n": 50,
+    "elite": 0.02,
+    "pro_bowl": 0.0,
+    "starter": 0.32,
+    "contributor": 0.38,
+    "bust": 0.28
+   },
+   "R5": {
+    "n": 44,
+    "elite": 0.0,
+    "pro_bowl": 0.045,
+    "starter": 0.159,
+    "contributor": 0.364,
+    "bust": 0.432
+   },
+   "R6-7": {
+    "n": 106,
+    "elite": 0.009,
+    "pro_bowl": 0.0,
+    "starter": 0.113,
+    "contributor": 0.198,
+    "bust": 0.679
+   }
+  },
+  "IOL": {
+   "R1 top10": {
+    "n": 6,
+    "elite": 0.333,
+    "pro_bowl": 0.0,
+    "starter": 0.167,
+    "contributor": 0.5,
+    "bust": 0.0
+   },
+   "R1 11-32": {
+    "n": 29,
+    "elite": 0.241,
+    "pro_bowl": 0.276,
+    "starter": 0.31,
+    "contributor": 0.103,
+    "bust": 0.069
+   },
+   "R2": {
+    "n": 42,
+    "elite": 0.095,
+    "pro_bowl": 0.095,
+    "starter": 0.595,
+    "contributor": 0.19,
+    "bust": 0.024
+   },
+   "R3": {
+    "n": 54,
+    "elite": 0.074,
+    "pro_bowl": 0.074,
+    "starter": 0.37,
+    "contributor": 0.278,
+    "bust": 0.204
+   },
+   "R4": {
+    "n": 66,
+    "elite": 0.015,
+    "pro_bowl": 0.03,
+    "starter": 0.242,
+    "contributor": 0.318,
+    "bust": 0.394
+   },
+   "R5": {
+    "n": 56,
+    "elite": 0.036,
+    "pro_bowl": 0.018,
+    "starter": 0.089,
+    "contributor": 0.196,
+    "bust": 0.661
+   },
+   "R6-7": {
+    "n": 119,
+    "elite": 0.008,
+    "pro_bowl": 0.008,
+    "starter": 0.16,
+    "contributor": 0.202,
+    "bust": 0.622
+   }
+  },
+  "LB": {
+   "R1 top10": {
+    "n": 13,
+    "elite": 0.308,
+    "pro_bowl": 0.077,
+    "starter": 0.538,
+    "contributor": 0.077,
+    "bust": 0.0
+   },
+   "R1 11-32": {
+    "n": 25,
+    "elite": 0.16,
+    "pro_bowl": 0.2,
+    "starter": 0.32,
+    "contributor": 0.28,
+    "bust": 0.04
+   },
+   "R2": {
+    "n": 50,
+    "elite": 0.12,
+    "pro_bowl": 0.02,
+    "starter": 0.56,
+    "contributor": 0.16,
+    "bust": 0.14
+   },
+   "R3": {
+    "n": 59,
+    "elite": 0.068,
+    "pro_bowl": 0.0,
+    "starter": 0.322,
+    "contributor": 0.305,
+    "bust": 0.305
+   },
+   "R4": {
+    "n": 60,
+    "elite": 0.017,
+    "pro_bowl": 0.0,
+    "starter": 0.25,
+    "contributor": 0.35,
+    "bust": 0.383
+   },
+   "R5": {
+    "n": 78,
+    "elite": 0.013,
+    "pro_bowl": 0.0,
+    "starter": 0.128,
+    "contributor": 0.295,
+    "bust": 0.564
+   },
+   "R6-7": {
+    "n": 137,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.058,
+    "contributor": 0.285,
+    "bust": 0.657
+   }
+  },
+  "OT": {
+   "R1 top10": {
+    "n": 18,
+    "elite": 0.389,
+    "pro_bowl": 0.167,
+    "starter": 0.389,
+    "contributor": 0.056,
+    "bust": 0.0
+   },
+   "R1 11-32": {
+    "n": 32,
+    "elite": 0.156,
+    "pro_bowl": 0.156,
+    "starter": 0.5,
+    "contributor": 0.156,
+    "bust": 0.031
+   },
+   "R2": {
+    "n": 34,
+    "elite": 0.088,
+    "pro_bowl": 0.088,
+    "starter": 0.382,
+    "contributor": 0.382,
+    "bust": 0.059
+   },
+   "R3": {
+    "n": 33,
+    "elite": 0.0,
+    "pro_bowl": 0.061,
+    "starter": 0.242,
+    "contributor": 0.303,
+    "bust": 0.394
+   },
+   "R4": {
+    "n": 28,
+    "elite": 0.036,
+    "pro_bowl": 0.036,
+    "starter": 0.107,
+    "contributor": 0.214,
+    "bust": 0.607
+   },
+   "R5": {
+    "n": 34,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.206,
+    "contributor": 0.265,
+    "bust": 0.529
+   },
+   "R6-7": {
+    "n": 80,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.113,
+    "contributor": 0.163,
+    "bust": 0.725
+   }
+  },
+  "QB": {
+   "R1 top10": {
+    "n": 27,
+    "elite": 0.148,
+    "pro_bowl": 0.296,
+    "starter": 0.37,
+    "contributor": 0.074,
+    "bust": 0.111
+   },
+   "R1 11-32": {
+    "n": 16,
+    "elite": 0.125,
+    "pro_bowl": 0.062,
+    "starter": 0.312,
+    "contributor": 0.062,
+    "bust": 0.438
+   },
+   "R2": {
+    "n": 18,
+    "elite": 0.0,
+    "pro_bowl": 0.167,
+    "starter": 0.056,
+    "contributor": 0.278,
+    "bust": 0.5
+   },
+   "R3": {
+    "n": 20,
+    "elite": 0.0,
+    "pro_bowl": 0.05,
+    "starter": 0.1,
+    "contributor": 0.1,
+    "bust": 0.75
+   },
+   "R4": {
+    "n": 18,
+    "elite": 0.0,
+    "pro_bowl": 0.111,
+    "starter": 0.056,
+    "contributor": 0.0,
+    "bust": 0.833
+   },
+   "R5": {
+    "n": 25,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.0,
+    "contributor": 0.04,
+    "bust": 0.96
+   },
+   "R6-7": {
+    "n": 51,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.098,
+    "contributor": 0.059,
+    "bust": 0.843
+   }
+  },
+  "RB": {
+   "R1 top10": {
+    "n": 13,
+    "elite": 0.385,
+    "pro_bowl": 0.0,
+    "starter": 0.538,
+    "contributor": 0.077,
+    "bust": 0.0
+   },
+   "R1 11-32": {
+    "n": 21,
+    "elite": 0.238,
+    "pro_bowl": 0.095,
+    "starter": 0.238,
+    "contributor": 0.333,
+    "bust": 0.095
+   },
+   "R2": {
+    "n": 39,
+    "elite": 0.103,
+    "pro_bowl": 0.128,
+    "starter": 0.103,
+    "contributor": 0.333,
+    "bust": 0.333
+   },
+   "R3": {
+    "n": 42,
+    "elite": 0.071,
+    "pro_bowl": 0.071,
+    "starter": 0.071,
+    "contributor": 0.476,
+    "bust": 0.31
+   },
+   "R4": {
+    "n": 59,
+    "elite": 0.068,
+    "pro_bowl": 0.034,
+    "starter": 0.068,
+    "contributor": 0.356,
+    "bust": 0.475
+   },
+   "R5": {
+    "n": 47,
+    "elite": 0.0,
+    "pro_bowl": 0.0,
+    "starter": 0.106,
+    "contributor": 0.34,
+    "bust": 0.553
+   },
+   "R6-7": {
+    "n": 135,
+    "elite": 0.0,
+    "pro_bowl": 0.007,
+    "starter": 0.044,
+    "contributor": 0.237,
+    "bust": 0.711
+   }
+  },
+  "S": {
+   "R1 top10": {
+    "n": 6,
+    "elite": 0.333,
+    "pro_bowl": 0.333,
+    "starter": 0.333,
+    "contributor": 0.0,
+    "bust": 0.0
+   },
+   "R1 11-32": {
+    "n": 24,
+    "elite": 0.167,
+    "pro_bowl": 0.208,
+    "starter": 0.458,
+    "contributor": 0.167,
+    "bust": 0.0
+   },
+   "R2": {
+    "n": 54,
+    "elite": 0.056,
+    "pro_bowl": 0.074,
+    "starter": 0.389,
+    "contributor": 0.333,
+    "bust": 0.148
+   },
+   "R3": {
+    "n": 37,
+    "elite": 0.054,
+    "pro_bowl": 0.027,
+    "starter": 0.324,
+    "contributor": 0.378,
+    "bust": 0.216
+   },
+   "R4": {
+    "n": 56,
+    "elite": 0.054,
+    "pro_bowl": 0.0,
+    "starter": 0.232,
+    "contributor": 0.464,
+    "bust": 0.25
+   },
+   "R5": {
+    "n": 39,
+    "elite": 0.0,
+    "pro_bowl": 0.051,
+    "starter": 0.308,
+    "contributor": 0.154,
+    "bust": 0.487
+   },
+   "R6-7": {
+    "n": 89,
+    "elite": 0.011,
+    "pro_bowl": 0.022,
+    "starter": 0.09,
+    "contributor": 0.382,
+    "bust": 0.494
+   }
+  },
+  "TE": {
+   "R1 top10": {
+    "n": 3,
+    "elite": 0.0,
+    "pro_bowl": 0.667,
+    "starter": 0.333,
+    "contributor": 0.0,
+    "bust": 0.0
+   },
+   "R1 11-32": {
+    "n": 13,
+    "elite": 0.0,
+    "pro_bowl": 0.308,
+    "starter": 0.462,
+    "contributor": 0.231,
+    "bust": 0.0
+   },
+   "R2": {
+    "n": 29,
+    "elite": 0.034,
+    "pro_bowl": 0.069,
+    "starter": 0.345,
+    "contributor": 0.414,
+    "bust": 0.138
+   },
+   "R3": {
+    "n": 38,
+    "elite": 0.079,
+    "pro_bowl": 0.053,
+    "starter": 0.211,
+    "contributor": 0.395,
+    "bust": 0.263
+   },
+   "R4": {
+    "n": 37,
+    "elite": 0.0,
+    "pro_bowl": 0.054,
+    "starter": 0.243,
+    "contributor": 0.405,
+    "bust": 0.297
+   },
+   "R5": {
+    "n": 36,
+    "elite": 0.028,
+    "pro_bowl": 0.0,
+    "starter": 0.278,
+    "contributor": 0.333,
+    "bust": 0.361
+   },
+   "R6-7": {
+    "n": 77,
+    "elite": 0.0,
+    "pro_bowl": 0.013,
+    "starter": 0.117,
+    "contributor": 0.156,
+    "bust": 0.714
+   }
+  },
+  "WR": {
+   "R1 top10": {
+    "n": 18,
+    "elite": 0.111,
+    "pro_bowl": 0.167,
+    "starter": 0.444,
+    "contributor": 0.111,
+    "bust": 0.167
+   },
+   "R1 11-32": {
+    "n": 33,
+    "elite": 0.091,
+    "pro_bowl": 0.061,
+    "starter": 0.455,
+    "contributor": 0.273,
+    "bust": 0.121
+   },
+   "R2": {
+    "n": 65,
+    "elite": 0.062,
+    "pro_bowl": 0.108,
+    "starter": 0.277,
+    "contributor": 0.323,
+    "bust": 0.231
+   },
+   "R3": {
+    "n": 73,
+    "elite": 0.055,
+    "pro_bowl": 0.055,
+    "starter": 0.164,
+    "contributor": 0.288,
+    "bust": 0.438
+   },
+   "R4": {
+    "n": 73,
+    "elite": 0.041,
+    "pro_bowl": 0.0,
+    "starter": 0.041,
+    "contributor": 0.274,
+    "bust": 0.644
+   },
+   "R5": {
+    "n": 51,
+    "elite": 0.078,
+    "pro_bowl": 0.0,
+    "starter": 0.137,
+    "contributor": 0.216,
+    "bust": 0.569
+   },
+   "R6-7": {
+    "n": 154,
+    "elite": 0.013,
+    "pro_bowl": 0.0,
+    "starter": 0.058,
+    "contributor": 0.13,
+    "bust": 0.799
+   }
+  }
+ },
+ "franchise_qb": {
+  "definition": "6+ seasons as primary starter AND (2+ Pro Bowls OR First-Team All-Pro)",
+  "by_bucket": {
+   "R1 top10": {
+    "n": 27,
+    "franchise": 0.333,
+    "multi_year_starter": 0.778,
+    "names": [
+     "Alex Smith",
+     "Matt Ryan",
+     "Matthew Stafford",
+     "Cam Newton",
+     "Jared Goff",
+     "Patrick Mahomes",
+     "Baker Mayfield",
+     "Sam Darnold",
+     "Josh Allen"
+    ]
+   },
+   "R1 11-32": {
+    "n": 16,
+    "franchise": 0.125,
+    "multi_year_starter": 0.5,
+    "names": [
+     "Aaron Rodgers",
+     "Lamar Jackson"
+    ]
+   },
+   "R2": {
+    "n": 18,
+    "franchise": 0.167,
+    "multi_year_starter": 0.222,
+    "names": [
+     "Andy Dalton",
+     "Geno Smith",
+     "Derek Carr"
+    ]
+   },
+   "R3": {
+    "n": 20,
+    "franchise": 0.05,
+    "multi_year_starter": 0.1,
+    "names": [
+     "Russell Wilson"
+    ]
+   },
+   "R4": {
+    "n": 18,
+    "franchise": 0.111,
+    "multi_year_starter": 0.167,
+    "names": [
+     "Kirk Cousins",
+     "Dak Prescott"
+    ]
+   },
+   "R5": {
+    "n": 25,
+    "franchise": 0.0,
+    "multi_year_starter": 0.0,
+    "names": []
+   },
+   "R6-7": {
+    "n": 51,
+    "franchise": 0.0,
+    "multi_year_starter": 0.059,
+    "names": []
+   }
+  }
+ },
+ "second_contract_5pct": {
+  "R1 top10": 0.613,
+  "R1 11-32": 0.485,
+  "R2": 0.3,
+  "R3": 0.155,
+  "R4": 0.085,
+  "R5": 0.057,
+  "R6-7": 0.024
+ }
+}

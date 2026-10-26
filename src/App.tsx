@@ -14,6 +14,9 @@ const TeamsIndex = lazy(() => import('@/pages/Teams').then((m) => ({ default: m.
 const TeamPage = lazy(() => import('@/pages/Teams').then((m) => ({ default: m.TeamPage })));
 const AdminData = lazy(() => import('@/pages/AdminData'));
 const DataSources = lazy(() => import('@/pages/DataSources'));
+const FranchiseHome = lazy(() => import('@/franchise/ui/Saves'));
+const FranchiseCareer = lazy(() => import('@/franchise/ui/Career'));
+const FranchiseCalibration = lazy(() => import('@/franchise/ui/Calibration'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
 // HashRouter: GitHub Pages serves static files only, so deep links use #/route.
@@ -34,6 +37,9 @@ export default function App() {
             <Route path="/team/:abbr" element={<TeamPage />} />
             <Route path="/admin/data" element={<AdminData />} />
             <Route path="/data-sources" element={<DataSources />} />
+            <Route path="/franchise" element={<FranchiseHome />} />
+            <Route path="/franchise/calibration" element={<FranchiseCalibration />} />
+            <Route path="/franchise/c/:saveId/*" element={<FranchiseCareer />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
